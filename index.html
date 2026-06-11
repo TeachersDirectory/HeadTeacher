@@ -35,18 +35,39 @@ body{
     top:50%;
     transform:translateY(-50%);
 
-    width:32px;
-    height:32px;
+    width:34px;
+    height:34px;
     border-radius:50%;
-    background:rgba(255,255,255,.2);
+    background:#fff3e0; /* হালকা ক্রিম/শ্যাম্পেন গোল্ডেন আভা */
+    color: #00695c; /* ভেতরের 'i' লেখার রঙ ডার্ক সবুজ */
 
     display:flex;
     align-items:center;
     justify-content:center;
 
     cursor:pointer;
-    font-size:18px;
+    font-size:16px;
     font-weight:bold;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+    
+    /* অ্যানিমেশনটা এখন অনেক আস্তে এবং শান্তভাবে হবে */
+    animation: premium-pulse 2.5s infinite; 
+}
+
+/* এই অ্যানিমেশনটি বাটনটিকে খুব মার্জিতভাবে একটি মৃদু আলোর ঢেউ দেবে */
+@keyframes premium-pulse {
+    0% {
+        transform: translateY(-50%) scale(0.96);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+    }
+    70% {
+        transform: translateY(-50%) scale(1);
+        box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+    }
+    100% {
+        transform: translateY(-50%) scale(0.96);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
 }
 
 .container{
