@@ -300,6 +300,12 @@ const teachers = [
 
 ];
 
+function normalize(text){
+    return text
+    .toLowerCase()
+    .replace(/য়/g,'য়');
+}
+
 const teacherList = document.getElementById("teacherList");
 const searchBox = document.getElementById("searchBox");
 const noResult = document.getElementById("noResult");
@@ -359,8 +365,8 @@ const keyword = searchBox.value.toLowerCase().trim();
 
 const filtered = teachers.filter(t =>
 
-t[0].toLowerCase().includes(keyword) ||
-t[2].toLowerCase().includes(keyword)
+normalize(t[0]).includes(normalize(keyword)) ||
+normalize(t[2]).includes(normalize(keyword))
 
 );
 
