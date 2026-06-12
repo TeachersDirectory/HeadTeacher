@@ -597,14 +597,14 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
 });
 
 
-// ১টি মাত্র মাস্টার ব্যাক বাটন লজিক (যা এডিট এবং ডেভেলপার দুই পেজকেই পারফেক্টলি ব্যাক করাবে)
+// ১টি মাত্র মাস্টার ব্যাক বাটন লজিক (যা এডিট এবং ডেভেলপার দুই পেজকেই পারফেক্টলি ব্যাক করিয়ে হোমপেজে ফেরাবে)
 window.addEventListener("popstate", function(event) {
-    // যদি এডিট পেজ খোলা থাকে, তবে এডিট পেজ বন্ধ করবে
+    // যদি এডিট পেজ খোলা থাকে, তবে এডিট পেজ বন্ধ করে হোমপেজে ফেরাবে
     if (document.getElementById("editPage") && document.getElementById("editPage").style.display === "block") {
         closeEditPage();
     } 
-    // অন্যথায় ডেভেলপার পেজ খোলা থাকলে সেটি বন্ধ করবে
-    else {
+    // অন্যথায় যদি ডেভেলপার পেজ খোলা থাকে, তবে সেটি বন্ধ করে হোমপেজে ফেরাবে
+    else if (document.getElementById("developerPage") && document.getElementById("developerPage").style.display === "block") {
         closeDeveloperPage();
     }
 });
