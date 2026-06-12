@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
@@ -435,18 +435,24 @@ const teachers = [
 
 ];
 
+const mainContainer = document.getElementById("mainContainer");
+const editPage = document.getElementById("editPage");
+const developerPage = document.getElementById("developerPage");
+const teacherList = document.getElementById("teacherList");
+const searchBox = document.getElementById("searchBox");
+const noResult = document.getElementById("noResult");
 
-    // ১. বাংলা সার্চ এবং টেক্সট নরমালাইজ করার ফাংশন
+// নরমালাইজ ফাংশন
 function normalize(text){ 
     if (!text) return ""; 
-    return text.toString() .toLowerCase() .trim() .replace(/[\u09bc]/g, '') .replace(/য়/g, 'য়') .replace(/ড়/g, '\u09dc') .replace(/ঢ়/g, '\u09dd'); 
+    return text.toString().toLowerCase().trim()
+        .replace(/[\u09bc]/g, '') 
+        .replace(/য়/g, 'য়') 
+        .replace(/ড়/g, 'ড়') 
+        .replace(/ঢ়/g, 'ঢ়'); 
 } 
 
-const teacherList = document.getElementById("teacherList"); 
-const searchBox = document.getElementById("searchBox"); 
-const noResult = document.getElementById("noResult"); 
-
-// ২. শিক্ষকদের তালিকা স্ক্রিনে দেখানোর ফাংশন
+// রেন্ডার ফাংশন (এডিট আইকনসহ)
 function renderTeachers(data){ 
     teacherList.innerHTML = ""; 
     if(data.length === 0){ 
@@ -461,7 +467,11 @@ function renderTeachers(data){
             <div class="teacher-info"> 
                 <div class="teacher-name"> 
                     <span>${teacher[0]}</span>
-                    <span onclick="openEditPage('${teacher[0]}', '${teacher[1]}', '${teacher[3]}')" style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; background: #f1f3f4; color: #5f6368; transition: all 0.2s;" title="তথ্য সংশোধন করুন" onmouseover="this.style.background='#e0f2f1'; this.style.color='#00695c'" onmouseout="this.style.background='#f1f3f4'; this.style.color='#5f6368'">
+                    <span onclick="openEditPage('\( {teacher[0]}', ' \){teacher[1]}', '${teacher[3]}')" 
+                          style="cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 6px; background: #f1f3f4; color: #5f6368; transition: all 0.2s; margin-left: 10px;" 
+                          title="তথ্য সংশোধন করুন"
+                          onmouseover="this.style.background='#e0f2f1'; this.style.color='#00695c'" 
+                          onmouseout="this.style.background='#f1f3f4'; this.style.color='#5f6368'">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -473,14 +483,62 @@ function renderTeachers(data){
                 <div class="teacher-phone">${teacher[3]}</div> 
             </div> 
             <a href="tel:${teacher[3]}" class="call-btn"> 📞 </a> 
-        </div> `; 
+        </div> `;
     }); 
 } 
 
-// প্রথমবার সব শিক্ষককে স্ক্রিনে দেখানো
-renderTeachers(teachers); 
+// পেজ সুইচ করার মূল ফাংশন
+function showPage(page) {
+    mainContainer.style.display = "none";
+    editPage.style.display = "none";
+    developerPage.style.display = "none";
 
-// ৩. অনুসন্ধান বা সার্চ লজিক (নাম, বিদ্যালয় এবং মোবাইল নম্বর ৩টি দিয়েই সার্চ হবে)
+    if (page === "main") {
+        mainContainer.style.display = "block";
+    } else if (page === "edit") {
+        editPage.style.display = "block";
+    } else if (page === "developer") {
+        developerPage.style.display = "block";
+    }
+}
+
+// এডিট পেজ খোলা
+function openEditPage(name, designation, phone) {
+    let schoolName = "";
+    const foundTeacher = teachers.find(t => t[0] === name && t[3] === phone);
+    if(foundTeacher) schoolName = foundTeacher[2];
+
+    document.getElementById("editSchoolName").innerText = schoolName;
+    document.getElementById("targetTeacher").value = name + " (" + schoolName + ")";
+    document.getElementById("currName").innerText = name;
+    document.getElementById("currDesignation").innerText = designation;
+    document.getElementById("currPhone").innerText = phone;
+
+    showPage("edit");
+    history.pushState({page: "edit"}, "", "");
+}
+
+// ডেভেলপার পেজ খোলা
+function openDeveloperPage(){
+    showPage("developer");
+    history.pushState({page: "developer"}, "", "");
+}
+
+// ব্যাক বাটন লজিক (সবচেয়ে গুরুত্বপূর্ণ অংশ)
+window.addEventListener("popstate", function(event) {
+    if (event.state && event.state.page) {
+        showPage(event.state.page);
+    } else {
+        showPage("main");
+    }
+});
+
+// ইনিশিয়াল সেটআপ
+renderTeachers(teachers);
+showPage("main");           // শুরুতে মেইন পেজ
+history.replaceState({page: "main"}, "", "");  // প্রথম স্টেট সেট
+
+// সার্চ ফাংশন
 searchBox.addEventListener("input", () => { 
     const keyword = normalize(searchBox.value); 
     const filtered = teachers.filter(t => 
@@ -490,83 +548,6 @@ searchBox.addEventListener("input", () => {
     ); 
     renderTeachers(filtered); 
 }); 
-
-// ৪. এডিট পেজ খোলার ফাংশন (স্কুলের নাম সহ ডেটা অটো-ফিল করবে)
-function openEditPage(name, designation, phone) {
-    let schoolName = "";
-    const foundTeacher = teachers.find(t => t[0] === name && t[3] === phone);
-    if(foundTeacher) {
-        schoolName = foundTeacher[2]; 
-    }
-
-    document.querySelector(".header").style.display = "none";
-    document.querySelector(".container").style.display = "none";
-    document.getElementById("editPage").style.display = "block";
-    
-    document.getElementById("editSchoolName").innerText = schoolName;
-    document.getElementById("targetTeacher").value = name + " (" + schoolName + ")";
-    document.getElementById("currName").innerText = name;
-    document.getElementById("currDesignation").innerText = designation;
-    document.getElementById("currPhone").innerText = phone;
-    
-    // ব্যাক বাটনের জন্য হিস্টোরি পুশ
-    history.pushState({page: "edit"}, "Edit Info");
-}
-
-// ৫. এডিট পেজ বন্ধ করার ফাংশন
-function closeEditPage() {
-    document.querySelector(".header").style.display = "block";
-    document.querySelector(".container").style.display = "block";
-    document.getElementById("editPage").style.display = "none";
-    document.getElementById("editForm").reset();
-}
-
-// ৬. ডেভেলপার পেজ খোলার ফাংশন
-function openDeveloperPage(){
-    history.pushState({page: "developer"}, "Developer Info");
-    
-    document.querySelector(".header").style.display = "none";
-    document.querySelector(".container").style.display = "none";
-    document.getElementById("developerPage").style.display = "block";
-}
-
-// ৭. ডেভেলপার পেজ বন্ধ করার ফাংশন
-function closeDeveloperPage(){
-    document.querySelector(".header").style.display = "block";
-    document.querySelector(".container").style.display = "block";
-    document.getElementById("developerPage").style.display = "none";
-}
-
-// ৮. ফর্ম সাবমিট করার পর কাজ
-document.getElementById("editForm").addEventListener("submit", function(e) {
-    setTimeout(() => {
-        alert("ধন্যবাদ! আপনার সংশোধনের অনুরোধটি Developer এর কাছে সফলভাবে পাঠানো হয়েছে।");
-        closeEditPage(); 
-    }, 1000);
-});
-
-// ৯. ১টি মাত্র মাস্টার ব্যাক বাটন লজিক (যা এডিট এবং ডেভেলপার দুই পেজকেই পারফেক্টলি ব্যাক করিয়ে হোমপেজে ফেরাবে)
-history.replaceState({page:"home"}, "", "");
-
-window.addEventListener("popstate", function(){
-
-    if(document.getElementById("editPage") &&
-       document.getElementById("editPage").style.display === "block"){
-
-        closeEditPage();
-        history.replaceState({page:"home"}, "", "");
-        return;
-    }
-
-    if(document.getElementById("developerPage") &&
-       document.getElementById("developerPage").style.display === "block"){
-
-        closeDeveloperPage();
-        history.replaceState({page:"home"}, "", "");
-        return;
-    }
-
-});
     
 </script>
 
