@@ -435,7 +435,7 @@ const teachers = [
 
 ];
 
-const mainContainer = document.getElementById("mainContainer");
+const container = document.querySelector(".container");
 const editPage = document.getElementById("editPage");
 const developerPage = document.getElementById("developerPage");
 const teacherList = document.getElementById("teacherList");
@@ -452,7 +452,7 @@ function normalize(text){
         .replace(/ঢ়/g, 'ঢ়'); 
 } 
 
-// রেন্ডার ফাংশন (এডিট আইকনসহ)
+// রেন্ডার ফাংশন
 function renderTeachers(data){ 
     teacherList.innerHTML = ""; 
     if(data.length === 0){ 
@@ -487,14 +487,14 @@ function renderTeachers(data){
     }); 
 } 
 
-// পেজ সুইচ করার মূল ফাংশন
+// পেজ দেখানোর ফাংশন
 function showPage(page) {
-    mainContainer.style.display = "none";
+    container.style.display = "none";
     editPage.style.display = "none";
     developerPage.style.display = "none";
 
     if (page === "main") {
-        mainContainer.style.display = "block";
+        container.style.display = "block";
     } else if (page === "edit") {
         editPage.style.display = "block";
     } else if (page === "developer") {
@@ -524,7 +524,7 @@ function openDeveloperPage(){
     history.pushState({page: "developer"}, "", "");
 }
 
-// ব্যাক বাটন লজিক (সবচেয়ে গুরুত্বপূর্ণ অংশ)
+// ব্যাক বাটন লজিক
 window.addEventListener("popstate", function(event) {
     if (event.state && event.state.page) {
         showPage(event.state.page);
@@ -533,12 +533,12 @@ window.addEventListener("popstate", function(event) {
     }
 });
 
-// ইনিশিয়াল সেটআপ
+// ইনিশিয়াল লোড
 renderTeachers(teachers);
-showPage("main");           // শুরুতে মেইন পেজ
-history.replaceState({page: "main"}, "", "");  // প্রথম স্টেট সেট
+showPage("main");
+history.replaceState({page: "main"}, "", "");
 
-// সার্চ ফাংশন
+// সার্চ
 searchBox.addEventListener("input", () => { 
     const keyword = normalize(searchBox.value); 
     const filtered = teachers.filter(t => 
