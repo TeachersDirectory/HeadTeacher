@@ -50,11 +50,10 @@ body{
     font-weight:bold;
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
     
-    /* অ্যানিমেশনটা এখন অনেক আস্তে এবং শান্তভাবে হবে */
+    /* অ্যানিমেশন */
     animation: premium-pulse 2.5s infinite; 
 }
-
-/* এই অ্যানিমেশনটি বাটনটিকে খুব মার্জিতভাবে একটি মৃদু আলোর ঢেউ দেবে */
+    
 @keyframes premium-pulse {
     0% {
         transform: translateY(-50%) scale(0.96);
@@ -108,7 +107,7 @@ body{
     margin-bottom: 5px;
     display: inline-flex;
     align-items: center;
-    gap: 20px; /* নাম থেকে আইকনটির দূরত্ব কতটুকু হবে তা এখান থেকে নিয়ন্ত্রণ করতে পারবেন */
+    gap: 20px;
     width: auto;
 }
 
@@ -169,7 +168,7 @@ body{
 }
 
 
-/* নতুন এডিট পেজের আন্তর্জাতিক মানের ডিজাইন */
+/* এডিট পেজের ডিজাইন */
 #editPage {
     padding: 15px;
     max-width: 800px;
@@ -180,7 +179,7 @@ body{
     background: #00695c;
     color: white;
     padding: 16px;
-    font-size: 22px; /* মূল হেডার একটু বড় করা হলো */
+    font-size: 22px;
     font-weight: bold;
     text-align: center;
     border-radius: 10px;
@@ -188,14 +187,12 @@ body{
     box-shadow: 0 2px 5px rgba(0,0,0,.15);
 }
 
-/* স্কুলের নাম বড় এবং স্পষ্ট দেখানোর জন্য */
-/* স্কুলের নাম বড় এবং উজ্জ্বল নিয়ন মিন্ট কালার দেখানোর জন্য */
 #editSchoolName {
     font-size: 18px !important; 
     font-weight: bold !important; 
     margin-top: 8px; 
-    color: #64ffda !important; /* হালকা নিয়ন মিন্ট গ্রিন, যা ডার্ক গ্রিনের ওপর দারুণ চোখে পড়বে */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2); /* লেখাটি যেন আরও ভেসে ওঠে */
+    color: #64ffda !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .edit-row {
@@ -443,16 +440,21 @@ function normalize(text){
     return text.toString()
         .toLowerCase()
         .trim()
-        .replace(/[\u09bc]/g, '') // বাংলা ডট বা হসন্তের সমস্যা দূর করার জন্য
+        .replace(/[\u09bc]/g, '')
         .replace(/য়/g, 'য়')
         .replace(/ড়/g, '\u09dc')
         .replace(/ঢ়/g, '\u09dd');
 }
 
+    
+
 const teacherList = document.getElementById("teacherList");
 const searchBox = document.getElementById("searchBox");
 const noResult = document.getElementById("noResult");
 
+    
+
+    
 function renderTeachers(data){
 
 teacherList.innerHTML = "";
@@ -464,6 +466,8 @@ if(data.length === 0){
 
 noResult.style.display = "none";
 
+
+    
 data.forEach(teacher => {
 
 teacherList.innerHTML += `
@@ -508,11 +512,12 @@ teacherList.innerHTML += `
 
 }
 
+
+    
 renderTeachers(teachers);
 
-// keyup এর বদলে input ইভেন্ট ব্যবহার করা হয়েছে যা কপি-পেস্ট করলেও কাজ করবে
 searchBox.addEventListener("input", () => {
-    // এখানে সরাসরি ইনপুটকে নরমালাইজ করা হচ্ছে
+    
     const keyword = normalize(searchBox.value);
 
     const filtered = teachers.filter(t =>
@@ -534,6 +539,10 @@ searchBox.addEventListener("input", function() {
     renderTeachers(filtered);
 });
 
+
+
+    
+
 // এডিট পেজ খোলার ফাংশন (স্কুলের নাম সহ ডেটা অটো-ফিল করবে)
 function openEditPage(name, designation, phone) {
     let schoolName = "";
@@ -542,11 +551,10 @@ function openEditPage(name, designation, phone) {
         schoolName = foundTeacher[2]; 
     }
 
-    // আগের মেইন লিস্ট এবং সার্চ বক্স লুকিয়ে ফেলা
     document.querySelector(".header").style.display = "none";
     document.querySelector(".container").style.display = "none";
     
-    // নতুন এডিট পেজটি সামনে আনা
+
     document.getElementById("editPage").style.display = "block";
     
     // ওপরে হেডার বক্সে স্কুলের নাম অটোমেটিক দেখানো
@@ -579,7 +587,7 @@ window.addEventListener("popstate", function(event) {
 
 // ফর্ম সাবমিট করার পর কাজ
 document.getElementById("editForm").addEventListener("submit", function(e) {
-    // ফর্ম সাবমিট হতে একটু সময় দেয়, তাই ১ সেকেন্ড পর মেসেজ দেখাবে এবং লিস্টে ফেরত নিয়ে যাবে
+
     setTimeout(() => {
         alert("ধন্যবাদ! আপনার সংশোধনের অনুরোধটি Developer এর কাছে সফলভাবে পাঠানো হয়েছে।");
         closeEditPage(); // এডিট পেজ বন্ধ করে মূল লিস্টে ফিরিয়ে নিয়ে যাবে
@@ -588,12 +596,14 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
 
 
 
+    
+
 function openDeveloperPage(){
     document.querySelector(".header").style.display = "none";
     document.querySelector(".container").style.display = "none";
     document.getElementById("developerPage").style.display = "block";
     
-    // ফোনের ব্যাক বাটনের কাজ সচল করার জন্য এই লাইনটি যোগ করা হয়েছে
+    // ফোনের ব্যাক বাটনের কাজ সচল করা
     history.pushState({page: "developer"}, "Developer Info");
 }
 
@@ -603,22 +613,22 @@ function closeDeveloperPage(){
     document.getElementById("developerPage").style.display = "none";
 }
 
-// এটি নতুন কোড: ফোনের ব্যাক বাটন চাপলে নিজে থেকেই এই অংশটি কাজ করবে
 window.addEventListener("popstate", function(event) {
     closeDeveloperPage();
 });
-
+    
 
 </script>
 
+
+    
+
 <div id="developerPage" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#e9ecef;overflow:auto;box-sizing:border-box;z-index: 999;">
 
-    <!-- ১. উপরের বারটি এখন স্ক্রিনের দুই পাশে পুরোপুরি মিলে যাবে -->
     <div style="background:#00695c;color:white;text-align:center;padding:16px;font-weight:bold;font-size:18px;box-shadow:0 2px 5px rgba(0,0,0,.2);">
         Developer Information
     </div>
 
-    <!-- ভেতরের বাকি উপাদানের জন্য একটি কন্টেইনার (যাতে বোতাম ও প্রোফাইল সুন্দর দেখায়) -->
     <div style="padding: 15px; max-width: 800px; margin: auto;">
 
         <!-- ডেভেলাপার প্রোফাইল কার্ড -->
@@ -630,7 +640,6 @@ window.addEventListener("popstate", function(event) {
                 <img src="photo.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute; z-index:2; top:0; left:0;" onerror="this.style.display='none'">
             </div>
 
-            <!-- ২. তথ্যগুলোর মাঝে সুন্দর গ্যাপ বা মার্জিন যোগ করা হয়েছে -->
             <h2 style="margin: 0 0 10px 0; color:#222; font-size:24px;">মোঃ নাফিউল ইসলাম ফাহাদ</h2>
 
             <p style="margin: 0 0 8px 0; color:#00695c; font-weight:600; font-size:16px;">সহকারী শিক্ষক</p>
