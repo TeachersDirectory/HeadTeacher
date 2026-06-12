@@ -529,17 +529,17 @@ searchBox.addEventListener("input", () => {
     renderTeachers(filtered);
 });
 
-// অনুসন্ধান বা সার্চ লজিক (নাম, বিদ্যালয় বা মোবাইল নাম্বার ৩টি দিয়েই সার্চ হবে)
-searchBox.addEventListener("input", function() {
-    const query = normalize(this.value);
-    const filtered = teachers.filter(teacher => {
-        return normalize(teacher[0]).includes(query) || 
-               normalize(teacher[2]).includes(query) || 
-               normalize(teacher[3]).includes(query);
-    });
+
+// অনুসন্ধান বা সার্চ লজিক (নাম, বিদ্যালয় এবং মোবাইল নম্বর ৩টি দিয়েই পারফেক্ট সার্চ হবে)
+searchBox.addEventListener("input", () => {
+    const keyword = normalize(searchBox.value);
+    const filtered = teachers.filter(t =>
+        normalize(t[0]).includes(keyword) || 
+        normalize(t[2]).includes(keyword) || 
+        normalize(t[3]).includes(keyword)
+    );
     renderTeachers(filtered);
 });
-    
 
 // এডিট পেজ খোলার ফাংশন (স্কুলের নাম সহ ডেটা অটো-ফিল করবে)
 function openEditPage(name, designation, phone) {
@@ -551,20 +551,15 @@ function openEditPage(name, designation, phone) {
 
     document.querySelector(".header").style.display = "none";
     document.querySelector(".container").style.display = "none";
-    
-
     document.getElementById("editPage").style.display = "block";
     
-    // ওপরে হেডার বক্সে স্কুলের নাম অটোমেটিক দেখানো
     document.getElementById("editSchoolName").innerText = schoolName;
-    
-    // বর্তমান তথ্যগুলো ফরমে অটো-ফিল করে দেওয়া
     document.getElementById("targetTeacher").value = name + " (" + schoolName + ")";
     document.getElementById("currName").innerText = name;
     document.getElementById("currDesignation").innerText = designation;
     document.getElementById("currPhone").innerText = phone;
     
-    // ফোনের ব্যাক বাটনের হিস্টোরি পুশ করা
+    // ব্যাক বাটনের জন্য হিস্টোরি পুশ
     history.pushState({page: "edit"}, "Edit Info");
 }
 
@@ -575,34 +570,33 @@ function closeEditPage() {
     document.getElementById("editPage").style.display = "none";
     document.getElementById("editForm").reset();
 }
-    
-// ফর্ম সাবমিট করার পর কাজ
-document.getElementById("editForm").addEventListener("submit", function(e) {
 
-    setTimeout(() => {
-        alert("ধন্যবাদ! আপনার সংশোধনের অনুরোধটি Developer এর কাছে সফলভাবে পাঠানো হয়েছে।");
-        closeEditPage(); // এডিট পেজ বন্ধ করে মূল লিস্টে ফিরিয়ে নিয়ে যাবে
-    }, 1000);
-});
-
-
-
+// ডেভেলপার পেজ খোলার ফাংশন
 function openDeveloperPage(){
     document.querySelector(".header").style.display = "none";
     document.querySelector(".container").style.display = "none";
     document.getElementById("developerPage").style.display = "block";
     
-    // ফোনের ব্যাক বাটনের কাজ সচল করা
+    // ব্যাক বাটনের জন্য হিস্টোরি পুশ
     history.pushState({page: "developer"}, "Developer Info");
 }
 
+// ডেভেলপার পেজ বন্ধ করার ফাংশন
 function closeDeveloperPage(){
     document.querySelector(".header").style.display = "block";
     document.querySelector(".container").style.display = "block";
     document.getElementById("developerPage").style.display = "none";
 }
 
-// গ্লোবাল ব্যাক বাটন হ্যান্ডেলার (১টি মাত্র লজিক যা এডিট এবং ডেভেলপার দুই পেজকেই নিখুঁতভাবে হ্যান্ডেল করবে)
+// ফর্ম সাবমিট করার পর কাজ
+document.getElementById("editForm").addEventListener("submit", function(e) {
+    setTimeout(() => {
+        alert("ধন্যবাদ! আপনার সংশোধনের অনুরোধটি Developer এর কাছে সফলভাবে পাঠানো হয়েছে।");
+        closeEditPage(); 
+    }, 1000);
+});
+
+// ১টি মাত্র মাস্টার ব্যাক বাটন লজিক (যা এডিট এবং ডেভেলপার দুই পেজকেই নিখুঁতভাবে ব্যাক করাবে)
 window.addEventListener("popstate", function(event) {
     if (document.getElementById("editPage").style.display === "block") {
         closeEditPage();
@@ -611,54 +605,33 @@ window.addEventListener("popstate", function(event) {
     }
 });
 
-
 </script>
 
-
-    
-
 <div id="developerPage" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#e9ecef;overflow:auto;box-sizing:border-box;z-index: 999;">
-
     <div style="background:#00695c;color:white;text-align:center;padding:16px;font-weight:bold;font-size:18px;box-shadow:0 2px 5px rgba(0,0,0,.2);">
         Developer Information
     </div>
-
     <div style="padding: 15px; max-width: 800px; margin: auto;">
-
-        <!-- ডেভেলাপার প্রোফাইল কার্ড -->
         <div style="text-align:center; margin-top:10px;">
-
-            <!-- প্রোফাইল পিকচার বা ডিফল্ট আইকন -->
             <div style="width:130px; height:130px; border-radius:50%; border:4px solid #00695c; margin: 0 auto 20px auto; display:flex; align-items:center; justify-content:center; background:#ccc; overflow:hidden; position:relative; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
                 <span style="font-size:60px; color:#fff; position:absolute; z-index:1;">👤</span>
                 <img src="photo.jpg" style="width:100%; height:100%; object-fit:cover; position:absolute; z-index:2; top:0; left:0;" onerror="this.style.display='none'">
             </div>
-
             <h2 style="margin: 0 0 10px 0; color:#222; font-size:24px;">মোঃ নাফিউল ইসলাম ফাহাদ</h2>
-
             <p style="margin: 0 0 8px 0; color:#00695c; font-weight:600; font-size:16px;">সহকারী শিক্ষক</p>
-
             <p style="margin: 0 0 8px 0; color:#555; font-size:15px;">পশ্চিম চরলাঠিমারা সরকারি প্রাথমিক বিদ্যালয়</p>
-
             <p style="margin: 0; color:#777; font-size:15px; font-style: italic;">আইসিটি বিষয়ক সম্পাদক, প্রাথমিক শিক্ষক সমিতি, পাথরঘাটা, বরগুনা।</p>
-
-
         </div>
-
     </div>
-
 </div>
-
 
 <div id="editPage" style="display: none;">
     <div class="edit-header">
         <div>তথ্য সংশোধন ফরম</div>
         <div id="editSchoolName" style="font-size: 14px; font-weight: normal; margin-top: 5px; color: #e0f2f1;"></div>
     </div>
-
     
     <form id="editForm" action="https://formspree.io/f/mbdezedz" method="POST">
-        
         <input type="hidden" name="Target_Teacher" id="targetTeacher">
 
         <div class="edit-row">
@@ -679,7 +652,6 @@ window.addEventListener("popstate", function(event) {
         <button type="submit" class="submit-btn">📩 তথ্য আপডেট রিকোয়েস্ট পাঠান</button>
     </form>
 </div>
-
 
 </body>
 </html>
