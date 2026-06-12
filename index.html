@@ -529,18 +529,16 @@ searchBox.addEventListener("input", () => {
     renderTeachers(filtered);
 });
 
-
-// অনুসন্ধান বা সার্চ লজিক
+// অনুসন্ধান বা সার্চ লজিক (নাম, বিদ্যালয় বা মোবাইল নাম্বার ৩টি দিয়েই সার্চ হবে)
 searchBox.addEventListener("input", function() {
     const query = normalize(this.value);
     const filtered = teachers.filter(teacher => {
-        return normalize(teacher[0]).includes(query) || normalize(teacher[2]).includes(query);
+        return normalize(teacher[0]).includes(query) || 
+               normalize(teacher[2]).includes(query) || 
+               normalize(teacher[3]).includes(query);
     });
     renderTeachers(filtered);
 });
-
-
-
     
 
 // এডিট পেজ খোলার ফাংশন (স্কুলের নাম সহ ডেটা অটো-ফিল করবে)
@@ -577,14 +575,7 @@ function closeEditPage() {
     document.getElementById("editPage").style.display = "none";
     document.getElementById("editForm").reset();
 }
-
-// ফোনের ব্যাক বাটন হ্যান্ডেলার
-window.addEventListener("popstate", function(event) {
-    if (document.getElementById("editPage").style.display === "block") {
-        closeEditPage();
-    }
-});
-
+    
 // ফর্ম সাবমিট করার পর কাজ
 document.getElementById("editForm").addEventListener("submit", function(e) {
 
@@ -595,8 +586,6 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
 });
 
 
-
-    
 
 function openDeveloperPage(){
     document.querySelector(".header").style.display = "none";
@@ -613,10 +602,15 @@ function closeDeveloperPage(){
     document.getElementById("developerPage").style.display = "none";
 }
 
+// গ্লোবাল ব্যাক বাটন হ্যান্ডেলার (১টি মাত্র লজিক যা এডিট এবং ডেভেলপার দুই পেজকেই নিখুঁতভাবে হ্যান্ডেল করবে)
 window.addEventListener("popstate", function(event) {
-    closeDeveloperPage();
+    if (document.getElementById("editPage").style.display === "block") {
+        closeEditPage();
+    } else if (document.getElementById("developerPage").style.display === "block") {
+        closeDeveloperPage();
+    }
 });
-    
+
 
 </script>
 
