@@ -546,19 +546,27 @@ document.getElementById("editForm").addEventListener("submit", function(e) {
 });
 
 // ৯. ১টি মাত্র মাস্টার ব্যাক বাটন লজিক (যা এডিট এবং ডেভেলপার দুই পেজকেই পারফেক্টলি ব্যাক করিয়ে হোমপেজে ফেরাবে)
-window.addEventListener("popstate", function(event) {
-    if (document.getElementById("editPage") && document.getElementById("editPage").style.display === "block") {
-        closeEditPage();
-    } 
-    else if (document.getElementById("developerPage") && document.getElementById("developerPage").style.display === "block") {
-        closeDeveloperPage();
-    }
-});
+history.replaceState({page:"home"}, "", "");
 
-// ১০. প্রথমবার অ্যাপে ঢোকার সময় বেস স্টেট সেট করা, যাতে ব্যাক বাটনে ডিরেক্ট অ্যাপ বন্ধ না হয়
-if (!history.state) {
-    history.replaceState({page: "home"}, "Home");
-}
+window.addEventListener("popstate", function(){
+
+    if(document.getElementById("editPage") &&
+       document.getElementById("editPage").style.display === "block"){
+
+        closeEditPage();
+        history.replaceState({page:"home"}, "", "");
+        return;
+    }
+
+    if(document.getElementById("developerPage") &&
+       document.getElementById("developerPage").style.display === "block"){
+
+        closeDeveloperPage();
+        history.replaceState({page:"home"}, "", "");
+        return;
+    }
+
+});
     
 </script>
 
