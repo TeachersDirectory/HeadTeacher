@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>প্রধান শিক্ষক ডিরেক্টরি</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1 class="header-title">
+        প্রধান শিক্ষক ডিরেক্টরি
+    </h1>
+
+    <a
+       href="developer.html"
+       class="header-icon">
+       👨‍💻
+    </a>
+
+</header>
+
+
+<div class="container">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="নাম, বিদ্যালয় বা মোবাইল নম্বর দিয়ে খুঁজুন..."
+            onkeyup="searchTeachers()">
+
+    </div>
+
+
+    <div id="teacherList"></div>
+
+</div>
+
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
