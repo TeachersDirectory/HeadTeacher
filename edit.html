@@ -10,6 +10,12 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+
+<script
+src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+    
+
 </head>
 
 <body>
@@ -142,12 +148,77 @@ document
 
     e.preventDefault();
 
-    alert(
-        "EmailJS সংযোগের পর রিকোয়েস্ট পাঠানো হবে।"
-    );
+    emailjs.init("DXQ1C6JevFrfjxqpr");
+
+document
+.getElementById("updateForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    emailjs.send(
+        "service_tsu2ctq",
+        "template_bo6pxoa",
+        {
+
+            teacher_name:
+            teacher.name,
+
+            school_name:
+            teacher.school,
+
+            current_name:
+            teacher.name,
+
+            new_name:
+            document
+            .getElementById("newName")
+            .value,
+
+            current_designation:
+            teacher.designation,
+
+            new_designation:
+            document
+            .getElementById("newDesignation")
+            .value,
+
+            current_phone:
+            teacher.phone,
+
+            new_phone:
+            document
+            .getElementById("newPhone")
+            .value
+
+        }
+
+    ).then(function(){
+
+        alert(
+        "তথ্য সংশোধনের অনুরোধ সফলভাবে পাঠানো হয়েছে।"
+        );
+
+        document
+        .getElementById("updateForm")
+        .reset();
+
+    })
+
+    .catch(function(error){
+
+        alert(
+        "রিকোয়েস্ট পাঠানো যায়নি।"
+        );
+
+        console.error(error);
+
+    });
 
 });
 
+});
+    
 </script>
 
 </body>
