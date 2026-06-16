@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>তথ্য সংশোধন</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <h1 class="header-title">
+        তথ্য সংশোধন
+    </h1>
+
+</header>
+
+<div class="container">
+
+    <div class="school-banner">
+
+        <h2 id="schoolName">
+            বিদ্যালয়ের নাম
+        </h2>
+
+        <p id="teacherName">
+            প্রধান শিক্ষকের নাম
+        </p>
+
+    </div>
+
+    <form id="updateForm">
+
+        <div class="form-card">
+
+            <div class="label">
+                বর্তমান নাম
+            </div>
+
+            <div class="current-value" id="currentName">
+                -
+            </div>
+
+            <input
+                type="text"
+                id="newName"
+                class="input-box"
+                placeholder="নতুন নাম লিখুন">
+
+        </div>
+
+        <div class="form-card">
+
+            <div class="label">
+                বর্তমান পদবী
+            </div>
+
+            <div class="current-value" id="currentDesignation">
+                -
+            </div>
+
+            <input
+                type="text"
+                id="newDesignation"
+                class="input-box"
+                placeholder="নতুন পদবী লিখুন">
+
+        </div>
+
+        <div class="form-card">
+
+            <div class="label">
+                বর্তমান মোবাইল নম্বর
+            </div>
+
+            <div class="current-value" id="currentPhone">
+                -
+            </div>
+
+            <input
+                type="text"
+                id="newPhone"
+                class="input-box"
+                placeholder="নতুন মোবাইল নম্বর লিখুন">
+
+        </div>
+
+        <button
+            type="submit"
+            class="submit-btn">
+
+            📩 তথ্য আপডেট রিকোয়েস্ট পাঠান
+
+        </button>
+
+    </form>
+
+</div>
+
+<script src="js/data.js"></script>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const id =
+Number(params.get("id"));
+
+const teacher =
+teachers.find(t => t.id === id);
+
+if(teacher){
+
+    document.getElementById("schoolName").innerText =
+    teacher.school;
+
+    document.getElementById("teacherName").innerText =
+    teacher.name;
+
+    document.getElementById("currentName").innerText =
+    teacher.name;
+
+    document.getElementById("currentDesignation").innerText =
+    teacher.designation;
+
+    document.getElementById("currentPhone").innerText =
+    teacher.phone;
+
+}
+
+document
+.getElementById("updateForm")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    alert(
+        "EmailJS সংযোগের পর রিকোয়েস্ট পাঠানো হবে।"
+    );
+
+});
+
+</script>
+
+</body>
+</html>
