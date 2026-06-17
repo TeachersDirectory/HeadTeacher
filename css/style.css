@@ -499,14 +499,11 @@ body{
     align-items:center;
     justify-content:center;
 
-    box-shadow: 0 6px 14px rgba(10,109,92,0.25);
-
     transition: all 0.2s ease;
 }
 
-.submit-btn:hover{
-    transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(10,109,92,0.35);
+.submit-btn:active{
+    transform: scale(0.98);
 }
 
 
