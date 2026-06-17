@@ -21,7 +21,6 @@ function searchTeachers() {
     });
 
     renderTeachers(filteredTeachers);
-
 }
 
 // ======================
@@ -30,8 +29,7 @@ function searchTeachers() {
 
 function renderTeachers(list = teachers) {
 
-    const container =
-        document.getElementById("teacherList");
+    const container = document.getElementById("teacherList");
 
     if (!container) return;
 
@@ -48,23 +46,23 @@ function renderTeachers(list = teachers) {
                 </div>
             </div>
         `;
-
         return;
     }
 
+    let html = "";
+
     list.forEach(teacher => {
 
-        container.innerHTML += `
-
+        html += `
         <div class="teacher-card">
 
             <div class="teacher-info">
 
                 <div class="card-top">
-                     <h3 class="teacher-name">${teacher.name}</h3>
+                    <h3 class="teacher-name">${teacher.name}</h3>
 
-                <button class="edit-btn" onclick="goToEdit(${teacher.id})">
-                     <svg viewBox="0 0 24 24"
+                    <button class="edit-btn" onclick="goToEdit('${teacher.id}')">
+                        <svg viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
                             stroke-width="2"
@@ -73,14 +71,12 @@ function renderTeachers(list = teachers) {
                             width="20"
                             height="20">
 
-                           <path d="M12 20h9"/>
-                           <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+                            <path d="M12 20h9"/>
+                            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
 
-                       </svg>
-
-                </button>
+                        </svg>
+                    </button>
                 </div>
-
 
                 <div class="teacher-post">
                     ${teacher.designation}
@@ -98,42 +94,32 @@ function renderTeachers(list = teachers) {
 
             <div class="action-area">
 
-                <a
-                    class="call-btn"
-                    href="tel:${teacher.phone}">
+                <a class="call-btn" href="tel:${teacher.phone}">
                     📞
                 </a>
 
             </div>
 
         </div>
-
         `;
 
     });
 
+    container.innerHTML = html;
 }
 
 // ======================
-// EDIT PAGE
+// EDIT NAVIGATION
 // ======================
 
 function goToEdit(id) {
-
-    window.location.href =
-        `edit.html?id=${id}`;
-
+    window.location.href = `edit.html?id=${id}`;
 }
 
 // ======================
-// LOAD DATA
+// INITIAL LOAD
 // ======================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        renderTeachers();
-
-    }
-);
+document.addEventListener("DOMContentLoaded", function () {
+    renderTeachers();
+});
