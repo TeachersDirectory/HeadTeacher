@@ -112,106 +112,94 @@ src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
 
 <script src="js/data.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 
-const params =
-new URLSearchParams(window.location.search);
+emailjs.init("DXQ1C6JevFrfjxqpr");
 
+// ======================
+// GET TEACHER FROM URL
+// ======================
+
+const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-const teacher =
-teachers.find(t => t.id === id);
+const teacher = teachers.find(t => t.id === id);
 
-if(teacher){
+// ======================
+// SAFETY CHECK
+// ======================
 
-    document.getElementById("schoolName").innerText =
-    teacher.school;
-
-    document.getElementById("teacherName").innerText =
-    teacher.name;
-
-    document.getElementById("currentName").innerText =
-    teacher.name;
-
-    document.getElementById("currentDesignation").innerText =
-    teacher.designation;
-
-    document.getElementById("currentPhone").innerText =
-    teacher.phone;
-
+if(!teacher){
+    alert("শিক্ষকের তথ্য পাওয়া যায়নি!");
+    throw new Error("Teacher not found");
 }
 
-document
-.getElementById("updateForm")
-.addEventListener("submit", function(e){
+// ======================
+// LOAD DATA TO PAGE
+// ======================
+
+document.getElementById("schoolName").innerText = teacher.school;
+document.getElementById("teacherName").innerText = teacher.name;
+
+document.getElementById("currentName").innerText = teacher.name;
+document.getElementById("currentDesignation").innerText = teacher.designation;
+document.getElementById("currentPhone").innerText = teacher.phone;
+
+// ======================
+// FORM SUBMIT
+// ======================
+
+document.getElementById("updateForm").addEventListener("submit", function(e){
 
     e.preventDefault();
 
-    emailjs.init("DXQ1C6JevFrfjxqpr");
+    // Validation
+    if(!document.getElementById("newName").value){
+        alert("নতুন নাম লিখুন");
+        return;
+    }
 
+    if(!document.getElementById("newDesignation").value){
+        alert("নতুন পদবী লিখুন");
+        return;
+    }
+
+    if(!document.getElementById("newPhone").value){
+        alert("নতুন মোবাইল নম্বর লিখুন");
+        return;
+    }
+
+    // Send Email
     emailjs.send(
         "service_tsu2ctq",
         "template_bo6pxoa",
         {
+            teacher_name: teacher.name,
+            school_name: teacher.school,
 
-            teacher_name:
-            teacher.name,
+            current_name: teacher.name,
+            new_name: document.getElementById("newName").value,
 
-            school_name:
-            teacher.school,
+            current_designation: teacher.designation,
+            new_designation: document.getElementById("newDesignation").value,
 
-            current_name:
-            teacher.name,
-
-            new_name:
-            document
-            .getElementById("newName")
-            .value,
-
-            current_designation:
-            teacher.designation,
-
-            new_designation:
-            document
-            .getElementById("newDesignation")
-            .value,
-
-            current_phone:
-            teacher.phone,
-
-            new_phone:
-            document
-            .getElementById("newPhone")
-            .value
-
+            current_phone: teacher.phone,
+            new_phone: document.getElementById("newPhone").value
         }
-
-    ).then(function(){
-
-        alert(
-        "তথ্য সংশোধনের অনুরোধ সফলভাবে পাঠানো হয়েছে।"
-        );
-
-        document
-        .getElementById("updateForm")
-        .reset();
-
+    )
+    .then(function(){
+        alert("তথ্য সংশোধনের অনুরোধ সফলভাবে পাঠানো হয়েছে।");
+        document.getElementById("updateForm").reset();
     })
-
     .catch(function(error){
-
-        alert(
-        "রিকোয়েস্ট পাঠানো যায়নি।"
-        );
-
+        alert("রিকোয়েস্ট পাঠানো যায়নি।");
         console.error(error);
-
     });
 
 });
 
-});
-    
 </script>
 
 </body>
