@@ -419,7 +419,7 @@ body{
 
     border-radius:22px;
 
-    padding:25px;
+    padding:18px;
 
     text-align:center;
 
@@ -430,7 +430,7 @@ body{
 }
 
 .school-banner h2{
-    font-size:20px;
+    font-size:18px;
     line-height:1.4;
     white-space: normal;
     word-break: break-word;
@@ -481,30 +481,29 @@ body{
 
 
 .submit-btn{
-    width:80%;
-    max-width:280px;
-    margin:0 auto;
+    width:60%;
+    max-width:260px;
+
     height:46px;
 
-    background:red !important;
-    width:50% !important;
+    margin:0 auto;
 
     border:none;
     border-radius:10px;
 
-    background: linear-gradient(135deg, #0A6D5C, #075448);
+    background:linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark)
+    );
 
     color:white;
     font-size:14px;
     font-weight:600;
 
-    cursor:pointer;
-
     display:flex;
     align-items:center;
     justify-content:center;
-
-    transition: all 0.2s ease;
 }
 
 .submit-btn:active{
@@ -542,7 +541,7 @@ body{
 @media(max-width:768px){
 
 .header{
-    height:80px;
+    height:64px;
 }
 
 .header-title{
