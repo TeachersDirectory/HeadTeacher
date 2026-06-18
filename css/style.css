@@ -287,7 +287,9 @@ body{
 
     height:28px;
 
-   margin-right:10px;
+    margin-right:14px;
+
+    margin-top: -5px; 
 
     border-radius:8px;
 
