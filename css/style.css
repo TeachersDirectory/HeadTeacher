@@ -310,6 +310,8 @@ body{
 
     border-radius:50%;
 
+    border:1px solid #D1D5DB;
+
     background:#F0FDF8;
 
     color:var(--primary);
