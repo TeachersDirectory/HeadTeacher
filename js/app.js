@@ -4,8 +4,6 @@ history.scrollRestoration = "manual";
 // SEARCH
 // ======================
 
-let searchActive = false;
-
 function searchTeachers() {
     const searchInput = document
         .getElementById("searchInput")
@@ -13,11 +11,9 @@ function searchTeachers() {
         .toLowerCase()
         .trim();
 
-    // প্রথমবার কিছু টাইপ করলে history push করো
-    if(searchInput.length > 0 && !searchActive){
-        searchActive = true;
-        history.pushState({page: "search"}, "");
-    }
+    // Clear বাটন show/hide
+    document.getElementById("clearBtn").style.display = 
+        searchInput.length > 0 ? "block" : "none";
 
     const filteredTeachers = teachers.filter(teacher => {
         return (
@@ -30,6 +26,11 @@ function searchTeachers() {
     renderTeachers(filteredTeachers);
 }
 
+function clearSearch() {
+    document.getElementById("searchInput").value = "";
+    document.getElementById("clearBtn").style.display = "none";
+    renderTeachers();
+}
 // ======================
 // CARD RENDER
 // ======================
