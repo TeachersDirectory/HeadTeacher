@@ -149,8 +149,6 @@ function closeDeveloperPage(){
     document.getElementById("developerPage").style.display = "none";
 
     window.scrollTo(0, 0);
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
 }
 
 window.addEventListener("popstate", function(event) {
