@@ -44,7 +44,6 @@ html{
 }
 
 body{
-
     font-family:'Noto Sans Bengali',sans-serif;
 
     background:var(--bg);
@@ -55,6 +54,8 @@ body{
 
     min-height:100vh;
 
+    margin:0;
+    padding:0;
 }
 
 
