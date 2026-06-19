@@ -121,7 +121,11 @@ function goToEdit(id) {
 // ======================
 
 document.addEventListener("DOMContentLoaded", function () {
+
     renderTeachers();
+
+    history.replaceState({page:"home"}, "", "#home");
+
 });
 
 // ======================
@@ -146,9 +150,9 @@ function closeDeveloperPage(){
 
 }
 
-window.addEventListener("popstate", function(){
+window.addEventListener("popstate", function(event){
 
-    if(document.getElementById("developerPage").style.display === "block"){
+    if(event.state && event.state.page === "home"){
 
         closeDeveloperPage();
 
