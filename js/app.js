@@ -137,12 +137,4 @@ function closeDeveloperPage(){
 
 }
 
-window.onpopstate = function(){
 
-    if(document.getElementById("developerPage").style.display === "block"){
-
-        document.getElementById("developerPage").style.display = "none";
-        document.getElementById("homePage").style.display = "block";
-    }
-
-};
