@@ -51,6 +51,8 @@ body{
 
     color:var(--text);
 
+    overflow-x: hidden;
+
     min-height:100vh;
 
 }
