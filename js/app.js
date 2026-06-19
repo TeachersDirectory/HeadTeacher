@@ -4,9 +4,6 @@ history.scrollRestoration = "manual";
 // SEARCH
 // ======================
 
-let searchPushed = false;
-let searchTimer = null;
-
 function searchTeachers() {
     const searchInput = document
         .getElementById("searchInput")
@@ -18,29 +15,15 @@ function searchTeachers() {
     document.getElementById("clearBtn").style.display = 
         searchInput.length > 0 ? "flex" : "none";
 
-    if(searchInput.length > 0 && !searchPushed){
-        searchPushed = true;
-        history.pushState({page: "search"}, "");
-    }
+    const filteredTeachers = teachers.filter(teacher => {
+        return (
+            teacher.name.toLowerCase().normalize("NFC").includes(searchInput) ||
+            teacher.school.toLowerCase().normalize("NFC").includes(searchInput) ||
+            teacher.phone.includes(searchInput)
+        );
+    });
 
-    if(searchInput.length === 0){
-        searchPushed = false;
-    }
-
-    // আগের timer বাতিল করো
-    clearTimeout(searchTimer);
-
-    // ১৫০ms পরে search করো
-    searchTimer = setTimeout(() => {
-        const filteredTeachers = teachers.filter(teacher => {
-            return (
-                teacher.name.toLowerCase().normalize("NFC").includes(searchInput) ||
-                teacher.school.toLowerCase().normalize("NFC").includes(searchInput) ||
-                teacher.phone.includes(searchInput)
-            );
-        });
-        renderTeachers(filteredTeachers);
-    }, 150);
+    renderTeachers(filteredTeachers);
 }
 
 function clearSearch() {
@@ -178,11 +161,5 @@ function closeDeveloperPage(){
 window.addEventListener("popstate", function(event) {
     if(document.getElementById("developerPage").style.display === "block"){
         closeDeveloperPage();
-        return;
     }
-
-    searchPushed = false;
-    document.getElementById("searchInput").value = "";
-    document.getElementById("clearBtn").style.display = "none";
-    renderTeachers();
 });
