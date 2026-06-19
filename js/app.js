@@ -4,22 +4,27 @@ history.scrollRestoration = "manual";
 // SEARCH
 // ======================
 
-function searchTeachers() {
+let searchActive = false;
 
+function searchTeachers() {
     const searchInput = document
         .getElementById("searchInput")
         .value
         .toLowerCase()
         .trim();
 
-    const filteredTeachers = teachers.filter(teacher => {
+    // প্রথমবার কিছু টাইপ করলে history push করো
+    if(searchInput.length > 0 && !searchActive){
+        searchActive = true;
+        history.pushState({page: "search"}, "");
+    }
 
+    const filteredTeachers = teachers.filter(teacher => {
         return (
             teacher.name.toLowerCase().includes(searchInput) ||
             teacher.school.toLowerCase().includes(searchInput) ||
             teacher.phone.includes(searchInput)
         );
-
     });
 
     renderTeachers(filteredTeachers);
@@ -155,12 +160,13 @@ function closeDeveloperPage(){
 }
 
 window.addEventListener("popstate", function(event) {
-    // Developer page খোলা থাকলে বন্ধ করো
     if(document.getElementById("developerPage").style.display === "block"){
         closeDeveloperPage();
+        return;
     }
-    
-    // Search বক্স clear করে সব contact দেখাও
+
+    // Search clear করো
+    searchActive = false;
     document.getElementById("searchInput").value = "";
     renderTeachers();
 });
