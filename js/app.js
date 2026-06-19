@@ -136,9 +136,9 @@ function goToEdit(id) {
 // ======================
 
 function openDeveloperPage(){
+    document.getElementById("developerPage").style.display = "block";
     document.querySelector(".header").style.display = "none";
     document.querySelector(".container").style.display = "none";
-    document.getElementById("developerPage").style.display = "block";
     
     history.pushState({page: "developer"}, "Developer Info");
 }
@@ -156,7 +156,6 @@ function closeDeveloperPage(){
 
 window.addEventListener("popstate", function(event) {
     closeDeveloperPage();
-    window.scrollTo(0, 0);
 });
 
 
