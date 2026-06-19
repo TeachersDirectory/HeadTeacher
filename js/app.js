@@ -134,19 +134,21 @@ function goToEdit(id) {
 // ======================
 
 function openDeveloperPage(){
-
-    document.getElementById("homePage").style.display = "none";
-
+    document.querySelector(".header").style.display = "none";
+    document.querySelector(".container").style.display = "none";
     document.getElementById("developerPage").style.display = "block";
-
+    
+history.pushState({page: "developer"}, "Developer Info");
 }
 
 function closeDeveloperPage(){
-
+    document.querySelector(".header").style.display = "block";
+    document.querySelector(".container").style.display = "block";
     document.getElementById("developerPage").style.display = "none";
-
-    document.getElementById("homePage").style.display = "block";
-
 }
+
+window.addEventListener("popstate", function(event) {
+    closeDeveloperPage();
+});
 
 
